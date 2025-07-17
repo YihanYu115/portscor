@@ -1,0 +1,66 @@
+.circle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    font-family: Arial, sans-serif;
+}
+
+.circle-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.circle.selected {
+    /* 选中状态样式 */
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.circle.unselected {
+    /* 未选中状态样式 */
+    background-color: var(--unselected-color, #2196F3); /* 使用配置的颜色，默认蓝色 */
+    opacity: 0.8;
+    transition: all 0.2s ease;
+}
+
+.circle.disabled {
+    /* 未使用状态样式 */
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+.circle:not(.disabled):hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.circle-index {
+    color: white;
+    font-size: 12px;
+    pointer-events: none;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.controls {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+}

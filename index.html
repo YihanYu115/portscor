@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css\\style.css"> <!-- 通用样式（可选） -->
+    <link rel="stylesheet" href="css\\circle-matrix.css">
+    <title>芯片-射频端口映射工具</title>
+    <style>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>芯片与射频端口连接管理</h1>
+        
+        <div class="section">
+            <h2>芯片端口</h2>
+            <div class="toggle-container">
+                <span class="toggle-label">显示芯片1端口:</span>
+                <input type="checkbox" id="toggleChip1Container" class="toggle-checkbox" checked>
+                <span class="toggle-label">显示芯片2端口:</span>
+                <input type="checkbox" id="toggleChip2Container" class="toggle-checkbox" checked>
+            </div>
+            <div class="chip-container">
+                <div id="chip1Section">
+                <div class="component-box">
+                    <div class="component-title">芯片 1</div>
+                    <div id="chip1" class="circle-container"></div>
+                </div>
+                </div>
+                <div id="chip2Section">
+                <div class="component-box">
+                    <div class="component-title">芯片 2</div>
+                    <div id="chip2" class="circle-container"></div>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>射频端口</h2>
+            <div class="rf-container">
+                <div class="component-box">
+                    <div class="component-title">射频端口组 1</div>
+                    <div id="rf1" class="circle-container"></div>
+                </div>
+                <div class="component-box">
+                    <div class="component-title">射频端口组 2</div>
+                    <div id="rf2" class="circle-container"></div>
+                </div>
+                <div class="component-box">
+                    <div class="component-title">射频端口组 3</div>
+                    <div id="rf3" class="circle-container"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <h2>配置</h2>
+            <div>
+                <label for="chip1Config">芯片1配置 (行数,每行圆圈数):</label>
+                <input type="text" 
+                id="chip1Config" 
+                value="12,4 10 10 10 12 12 12 12 10 10 10 4" 
+                placeholder="例如: 3,5 4 5">
+            </div>
+            <div>
+                <label for="chip1Indices">芯片1索引 (JSON数组):</label>
+                <input type="text" 
+                id="chip1Indices" 
+                value="[[18,14,13,9],
+                [28,23,22,19,15,12,8,5,4,3],
+                [29,25,24,20,16,11,7,2,100,98],
+                [30,27,26,21,17,10,6,1,99,97],
+                [34,33,32,31,101,102,103,104,96,95,94,93],
+                [38,37,36,35,105,106,107,108,92,91,90,89],
+                [39,40,41,42,109,110,111,112,85,86,87,88],
+                [43,44,45,46,113,114,115,116,81,82,83,84],
+                [47,49,51,56,60,67,71,76,77,80],
+                [48,50,52,57,61,66,70,74,75,79],
+                [53,54,55,58,62,65,69,72,73,78],
+                [59,63,64,68]]"
+                placeholder='例如: [["A1","A2","A3","A4","A5"],["B1","B2","B3","B4"],["C1","C2","C3","C4","C5"]]'>
+            </div>
+            <div>
+                <label for="chip2Config">芯片2配置 (行数,每行圆圈数):</label>
+                <input type="text" 
+                id="chip2Config" 
+                value="12,4 10 10 10 12 12 12 12 10 10 10 4" 
+                placeholder="例如: 2,6 6">
+            </div>
+            <div>
+                <label for="chip2Indices">芯片2索引 (JSON数组):</label>
+                <input type="text" 
+                id="chip2Indices" 
+                value="[[18,14,13,9],
+                [28,23,22,19,15,12,8,5,4,3],
+                [29,25,24,20,16,11,7,2,100,98],
+                [30,27,26,21,17,10,6,1,99,97],
+                [34,33,32,31,101,102,103,104,96,95,94,93],
+                [38,37,36,35,105,106,107,108,92,91,90,89],
+                [39,40,41,42,109,110,111,112,85,86,87,88],
+                [43,44,45,46,113,114,115,116,81,82,83,84],
+                [47,49,51,56,60,67,71,76,77,80],
+                [48,50,52,57,61,66,70,74,75,79],
+                [53,54,55,58,62,65,69,72,73,78],
+                [59,63,64,68]]"
+                placeholder='例如: [["D1","D2","D3","D4","D5","D6"],["E1","E2","E3","E4","E5","E6"]]'>
+            </div>
+            <div>
+                <label for="rf1Config">射频组1配置 (行数,每行圆圈数):</label>
+                <input type="text" 
+                id="rf1Config" 
+                value="7,6 7 6 7 6 7 6" 
+                placeholder="例如: 2,8 8">
+            </div>
+            <div>
+                <label for="rf1Indices">射频组1索引 (JSON数组):</label>
+                <input type="text" 
+                id="rf1Indices" 
+                value='[["A1","A2","A3","A4","A5","A6"], 
+                ["A7","A8","A9","A10","A11","A12","A13"], 
+                ["A14","A15","A16","A17","A18","A19"], 
+                ["A20","A21","A22","A23","A24","A25","A26"], 
+                ["A27","A28","A29","A30","A31","A32"], 
+                ["A33","A34","A35","A36","A37","A38","A39"], 
+                ["A40","A41","A42","A43","A44","A45"]]'
+                placeholder='例如: [["R1","R2","R3","R4","R5","R6","R7","R8"],["S1","S2","S3","S4","S5","S6","S7","S8"]]'>
+            </div>
+            <div>
+                <label for="rf2Config">射频组2配置 (行数,每行圆圈数):</label>
+                <input type="text" 
+                id="rf2Config" 
+                value="7,6 7 6 7 6 7 6"
+                placeholder="例如: 1,12">
+            </div>
+            <div>
+                <label for="rf2Indices">射频组2索引 (JSON数组):</label>
+                <input type="text" 
+                id="rf2Indices"
+                value='[["B1","B2","B3","B4","B5","B6"], 
+                ["B7","B8","B9","B10","B11","B12","B13"], 
+                ["B14","B15","B16","B17","B18","B19"], 
+                ["B20","B21","B22","B23","B24","B25","B26"], 
+                ["B27","B28","B29","B30","B31","B32"], 
+                ["B33","B34","B35","B36","B37","B38","B39"], 
+                ["B40","B41","B42","B43","B44","B45"]]'
+                placeholder='例如: [["T1","T2","T3","T4","T5","T6","T7","T8","T9","T10","T11","T12"]]'>
+            </div>
+            <div>
+                <label for="rf3Config">射频组3配置 (行数,每行圆圈数):</label>
+                <input type="text" 
+                id="rf3Config" 
+                value="7,6 7 6 7 6 7 6"
+                placeholder="例如: 3,4 5 4">
+            </div>
+            <div>
+                <label for="rf3Indices">射频组3索引 (JSON数组):</label>
+                <input type="text" 
+                id="rf3Indices" 
+                value='[["C1","C2","C3","C4","C5","C6"], 
+                ["C7","C8","C9","C10","C11","C12","C13"], 
+                ["C14","C15","C16","C17","C18","C19"], 
+                ["C20","C21","C22","C23","C24","C25","C26"], 
+                ["C27","C28","C29","C30","C31","C32"], 
+                ["C33","C34","C35","C36","C37","C38","C39"], 
+                ["C40","C41","C42","C43","C44","C45"]]'
+                placeholder='例如: [["U1","U2","U3","U4"],["V1","V2","V3","V4","V5"],["W1","W2","W3","W4"]]'>
+            </div>
+            <button id="initBtn">初始化所有组件</button>
+        </div>
+        
+        <div class="connection-editor">
+            <h2>连接关系配置</h2>
+            <p>格式: 芯片编号:端口索引=射频组编号:端口索引 (每行一个对应关系)</p>
+            <p>示例:</p>
+            <pre>1:31=2:11
+1:12=3:5
+2:3_2=1:1_4</pre>
+            <textarea id="connections" rows="10">2:37=1:A1
+2:41=1:A2
+1:78=1:A3
+1:11=1:A4
+1:21=1:A5
+1:33=1:A6
+2:91=1:A7
+2:87=1:A8
+1:98=1:A9
+1:66=1:A10
+1:57=1:A11
+1:45=1:A12
+1:67=1:A13
+1:68=1:A14
+1:13=1:A15
+1:15=1:A16
+1:17=1:A17
+1:62=1:A18
+1:64=1:A19
+1:19=1:A20
+1:20=1:A21
+1:18=1:A22
+1:60=1:A23
+1:58=1:A24
+1:59=1:A25
+1:23=1:A26
+1:27=1:A27
+1:29=1:A28
+1:53=1:A29
+1:55=1:A30
+1:31=1:A31
+1:32=1:A32
+1:30=1:A33
+1:48=1:A34
+1:46=1:A35
+1:47=1:A36
+1:35=1:A37
+1:37=1:A38
+1:39=1:A39
+1:41=1:A40
+1:43=1:A41
+1:97=1:A42
+1:95=1:A43
+1:81=1:A44
+1:79=1:A45
+2:45=2:B1
+2:31=2:B2
+2:49=2:B3
+2:27=2:B4
+2:56=2:B5
+2:20=2:B6
+2:60=2:B7
+2:16=2:B8
+2:62=2:B9
+2:14=2:B10
+2:95=2:B11
+2:81=2:B12
+2:99=2:B13
+2:77=2:B14
+2:6=2:B15
+2:70=2:B16
+2:10=2:B17
+2:66=2:B18
+2:12=2:B19
+2:64=2:B20
+2:43=2:B21
+2:33=2:B22
+2:47=2:B23
+2:29=2:B24
+2:54=2:B25
+2:22=2:B26
+2:58=2:B27
+2:18=2:B28
+2:93=2:B29
+2:83=2:B30
+2:97=2:B31
+2:79=2:B32
+2:4=2:B33
+2:72=2:B34
+2:8=2:B35
+2:68=2:B36
+1:3=2:B37
+1:5=2:B38
+1:7=2:B39
+1:71=2:B40
+1:73=2:B41
+1:9=2:B42
+1:10=2:B43
+1:8=2:B44
+1:69=2:B45
+1:2=3:C1
+1:4=3:C2
+1:6=3:C3
+1:70=3:C4
+1:72=3:C5
+1:77=3:C6
+1:12=3:C7
+1:14=3:C8
+1:16=3:C9
+1:61=3:C10
+1:63=3:C11
+1:65=3:C12
+1:22=3:C13
+1:24=3:C14
+1:28=3:C15
+1:52=3:C16
+1:54=3:C17
+1:56=3:C18
+1:34=3:C19
+1:36=3:C20
+1:38=3:C21
+1:40=3:C22
+1:42=3:C23
+1:44=3:C24
+2:42=3:C25
+2:34=3:C26
+2:46=3:C27
+2:30=3:C28
+2:53=3:C29
+2:23=3:C30
+2:57=3:C31
+2:19=3:C32
+2:61=3:C33
+2:15=3:C34
+2:92=3:C35
+2:84=3:C36
+2:96=3:C37
+2:80=3:C38
+2:3=3:C39
+2:73=3:C40
+2:7=3:C41
+2:69=3:C42
+2:11=3:C43
+2:65=3:C44
+1:80=3:C45</textarea>
+            <button id="applyConnectionsBtn">应用连接关系</button>
+            <div id="status" class="status"></div>
+        </div>
+    </div>
+    
+    <!-- 引入组件和初始化逻辑 -->
+    <script src="js\\circle-matrix.js"></script>
+    <script src="js\\main.js"></script>
+</body>
+</html>
